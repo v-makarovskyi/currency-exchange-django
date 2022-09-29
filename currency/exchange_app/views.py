@@ -19,8 +19,9 @@ def exchange(request):
         all_amount = float(request.POST.get('all-amount'))
         from_curr = request.POST.get('from-curr')
         to_curr = request.POST.get('to-curr')
+        print(all_amount)
 
-        converted_amount = round((currencies[to_curr] / currencies[from_curr]) * all_amount, 2)
+        converted_amount = round((currencies[to_curr] / currencies[from_curr]) * float(all_amount), 2)
 
         context = {
             'all_amount': all_amount,
@@ -30,4 +31,4 @@ def exchange(request):
             'currencies': currencies
         }
 
-        return render(request, 'excange_app/index.html', context=context)
+        return render(request, 'exchange_app/index.html', context=context)

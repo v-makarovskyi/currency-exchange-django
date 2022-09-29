@@ -1,0 +1,81 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8 col-md-5 d-flex flex-column mx-auto converter-wrap">
+      <h2 class="text-center p-2">Конвертер валют</h2> 
+      <div class="p-3">
+        <form id="form" action="" method="POST">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label" for="amount">Сумма:</label>
+                <div class="col-sm-6">
+                    <input 
+                        class="form-control"
+                        type="number"
+                        id="amount"
+                        name="all-amount"
+                        {% if all_amount %} value="{{ all_amount }}" {% endif %}
+                        placeholder="Введите число"
+                    >
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label" for="from_curr">Отдаем:</label>
+                <div class="col-sm-6">
+                    <select 
+                        name="from-curr" 
+                        id="from_curr"
+                        class="form-control"
+                        value="{{ from_curr }}"
+                    >
+                        {% for curr in currencies %}
+                            <option 
+                                value="{{ curr }}"
+                                {% if from_curr == curr %}selected{% endif %}
+                            >
+                                {{ curr }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="to_curr" class="col-sm-4 col-form-label">Получаем:</label>
+                <div class="col-sm-6">
+                    <select 
+                        name="to-curr" 
+                        id="to_curr"
+                        class="form-control"
+                        value="{{ to_curr }}"
+                    >
+                    {% for curr in currencies %}
+                        <option 
+                            value="{{ curr }}"
+                            {% if to_curr == curr %}selected{% endif %}
+                        >
+                            {{ curr }}
+                        </option>
+                    {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <hr>
+            {% if converted_amount %}
+                <div class="p-2 text-center">
+                    <p style="font-size: 20px;">Меняем <span style="font-size: 30px; color:red">{{all_amount}}</span> {{from_curr}} на {{to_curr}}</p>
+                     <p style="font-size: 30px;">Результат: <span style="font-size: 30px; color:red">{{ converted_amount }}</span></p>
+                </div>
+               
+            {% endif %}
+            
+            <button type="submit" class="btn btn-success w-100 p-2 mb-2" style="font-size: 20px;">Рассчитать</button>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+{% endblock %}
